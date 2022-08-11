@@ -271,6 +271,37 @@ void YOLOX::decode_outputs(float* prob, std::vector<Object>& objects, float scal
         }
 }
 
+//Put Mosic on image
+void YOLOX::Generate_Mosaic(cv::Mat& bgr, const std::vector<Object>& objects)
+{
+    int step = 30;
+    for (int t = 0; t < objects.size(); t++)
+    {
+        int x = objects.at(t).rect.x;
+        int y = objects.at(t).rect.y;
+        int width = objects.at(t).rect.width;
+        int height = objects.at(t).rect.height;
+        for (int i = y; i < (y + height); i += step)
+        {
+            for (int j = x; j < (x + width); j += step)
+            {
+                for (int k = i; k < (step + i); k++)
+                {
+                    for (int m = j; m < (step + j); m++)
+                    {
+                        for (int c = 0; c < 3; c++)
+                        {
+                            bgr.at<cv::Vec3b>(k, m)[c] = bgr.at<cv::Vec3b>(i, j)[c];
+                        }
+                    }
+                }
+            }
+        }
+    }
+    cv::namedWindow("Mosaic", CV_WINDOW_NORMAL);
+    cv::imshow("Mosaic", bgr);
+}
+
 
 void YOLOX::draw_objects(const cv::Mat& bgr, const std::vector<Object>& objects)
 {
@@ -314,8 +345,11 @@ void YOLOX::draw_objects(const cv::Mat& bgr, const std::vector<Object>& objects)
         //if (x + label_size.width > image.cols)
             //x = image.cols - label_size.width;
 
+        cv::Mat objImg = image(cv::Rect(cv::Point(x, y), cv::Size(label_size.width, label_size.height + baseLine)));
         cv::rectangle(image, cv::Rect(cv::Point(x, y), cv::Size(label_size.width, label_size.height + baseLine)),
                       txt_bk_color, -1);
+
+        //cv::GaussianBlur(objImg, objImg, cv::Size(5, 5), 11, 11);
 
         cv::putText(image, text, cv::Point(x, y + label_size.height),
                     cv::FONT_HERSHEY_SIMPLEX, 0.4, txt_color, 1);
@@ -323,7 +357,10 @@ void YOLOX::draw_objects(const cv::Mat& bgr, const std::vector<Object>& objects)
 
     //cv::imwrite("det_res.jpg", image);
     //fprintf(stderr, "save vis file\n");
-    cv::imshow("image", image); 
+
+    cv::namedWindow("video", CV_WINDOW_NORMAL);
+    cv::imshow("video", image);
+
     //cv::waitKey(1);
 }
 
@@ -387,10 +424,9 @@ std::vector<Object> YOLOX::detect(cv::Mat& img) {
     
     decode_outputs(prob, objects, scale, img_w, img_h);
     draw_objects(img, objects);
+    Generate_Mosaic(img,objects);
     // delete the pointer to the float
     delete blob;
     return objects;
 }
-
-
 

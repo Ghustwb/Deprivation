@@ -5,7 +5,7 @@
 Detector::Detector(std::string Model)
 {
     model_path = Model;
-    yoloXDetector = new Detect::YOLOX(model_path);
+
     model_init_done = true;
 }
 
@@ -28,6 +28,7 @@ void Detector::run()
         qDebug()<< "Please Set Cam Index";
         return ;
     }
+    yoloXDetector = new Detect::YOLOX(model_path);
     cv::VideoCapture cap(video_index);
     cv::Mat image ;
     if (!cap.isOpened())
