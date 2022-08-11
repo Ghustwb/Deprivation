@@ -274,6 +274,7 @@ void YOLOX::decode_outputs(float* prob, std::vector<Object>& objects, float scal
 //Put Mosic on image
 void YOLOX::Generate_Mosaic(cv::Mat& bgr, const std::vector<Object>& objects)
 {
+#if 0
     int step = 30;
     for (int t = 0; t < objects.size(); t++)
     {
@@ -294,6 +295,25 @@ void YOLOX::Generate_Mosaic(cv::Mat& bgr, const std::vector<Object>& objects)
                             bgr.at<cv::Vec3b>(k, m)[c] = bgr.at<cv::Vec3b>(i, j)[c];
                         }
                     }
+                }
+            }
+        }
+    }
+#endif
+    int pix = 105;
+    for (int t = 0; t < objects.size(); t++)
+    {
+        int x = objects.at(t).rect.x;
+        int y = objects.at(t).rect.y;
+        int width = objects.at(t).rect.width;
+        int height = objects.at(t).rect.height;
+        for (int i = y; i < (y + height); i += 1)
+        {
+            for (int k = x; k < (x + width); k++)
+            {
+                for (int m = 0; m < 3; m++)
+                {
+                    bgr.at<cv::Vec3b>(i, k)[m] = pix;
                 }
             }
         }
