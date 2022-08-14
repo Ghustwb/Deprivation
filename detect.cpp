@@ -1,6 +1,7 @@
 #include "detect.h"
 #include "opencv2/opencv.hpp"
 #include "QDebug"
+#include "QImage"
 
 Detector::Detector(std::string Model)
 {
@@ -13,6 +14,7 @@ Detector::~Detector()
 {
     delete yoloXDetector;
 }
+
 
 void Detector::setCamOption(int index,int blur_option)
 {
@@ -69,10 +71,13 @@ void Detector::draw_objects(const cv::Mat& bgr, const std::vector<Detect::Object
         cv::putText(image, text, cv::Point(x, y + label_size.height),
                     cv::FONT_HERSHEY_SIMPLEX, 0.4, txt_color, 1);
     }
-    std::string window_name = "Camera" + std::to_string(video_index);
-    cv::namedWindow(window_name, 0);
-    cv::imshow(window_name, image);
+//    std::string window_name = "Camera" + std::to_string(video_index);
+//    cv::namedWindow(window_name, 0);
+//    cv::imshow(window_name, image);
     //cv::waitKey(1);
+    QImage qimg;
+    mat2Qimg.Mat_2_Qimage_f(image,qimg);
+    emit sig_video_src(qimg);
 }
 
 //Put Mosic on image
@@ -102,10 +107,12 @@ void Detector::generate_mosaic(cv::Mat& bgr, const std::vector<Detect::Object>& 
             }
         }
     }
-    std::string window_name = "Mosaic Camera" + std::to_string(video_index);
-    cv::namedWindow(window_name, 0);
-    cv::imshow(window_name,bgr);
-
+//    std::string window_name = "Mosaic Camera" + std::to_string(video_index);
+//    cv::namedWindow(window_name, 0);
+//    cv::imshow(window_name,bgr);
+    QImage qimg;
+    mat2Qimg.Mat_2_Qimage_f(bgr,qimg);
+    emit sig_video_out(qimg);
 }
 
 
@@ -130,9 +137,12 @@ void Detector::generate_gray_pixle(cv::Mat& bgr, const std::vector<Detect::Objec
             }
         }
     }
-    std::string window_name = "Gray Pixel Camera" + std::to_string(video_index);
-    cv::namedWindow(window_name, 0);
-    cv::imshow(window_name,bgr);
+//    std::string window_name = "Gray Pixel Camera" + std::to_string(video_index);
+//    cv::namedWindow(window_name, 0);
+//    cv::imshow(window_name,bgr);
+    QImage qimg;
+    mat2Qimg.Mat_2_Qimage_f(bgr,qimg);
+    emit sig_video_out(qimg);
 }
 
 //Put Gaussian Blur
@@ -144,9 +154,12 @@ void Detector::generate_Gaussian(cv::Mat &bgr, const std::vector<Detect::Object>
         cv::Rect roi = objects.at(t).rect;
         cv::GaussianBlur(image(roi), bgr(roi), cv::Size(35, 35), 15, 0, 4);
     }
-    std::string window_name = "Gaussian Blur Camera" + std::to_string(video_index);
-    cv::namedWindow(window_name, 0);
-    cv::imshow(window_name,bgr);
+//    std::string window_name = "Gaussian Blur Camera" + std::to_string(video_index);
+//    cv::namedWindow(window_name, 0);
+//    cv::imshow(window_name,bgr);
+    QImage qimg;
+    mat2Qimg.Mat_2_Qimage_f(bgr,qimg);
+    emit sig_video_out(qimg);
 }
 
 void Detector::run()
@@ -158,7 +171,10 @@ void Detector::run()
         return ;
     }
     yoloXDetector = new Detect::YOLOX(model_path);
-    cap.open(video_index);
+    if(video_index == 1)
+        cap.open("/home/cap/Videos/video1.avi");
+    else
+        cap.open(video_index);
     cv::Mat image ;
     if (!cap.isOpened())
     {
@@ -186,5 +202,3 @@ void Detector::run()
         }
     }
 }
-
-

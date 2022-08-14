@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>469</width>
-    <height>260</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="pushButton_start1">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>180</y>
+      <x>1380</x>
+      <y>165</y>
       <width>41</width>
       <height>25</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="pushButton_start2">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>180</y>
+      <x>1460</x>
+      <y>165</y>
       <width>41</width>
       <height>25</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="pushButton_start3">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>180</y>
+      <x>1540</x>
+      <y>165</y>
       <width>41</width>
       <height>25</height>
      </rect>
@@ -56,8 +56,8 @@
    <widget class="QPushButton" name="pushButton_start4">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>180</y>
+      <x>1620</x>
+      <y>165</y>
       <width>41</width>
       <height>25</height>
      </rect>
@@ -69,8 +69,8 @@
    <widget class="QLineEdit" name="lineEdit_modelPath">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>40</y>
+      <x>1470</x>
+      <y>25</y>
       <width>251</width>
       <height>25</height>
      </rect>
@@ -79,8 +79,8 @@
    <widget class="QPushButton" name="pushButton_chooseModel">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>40</y>
+      <x>1380</x>
+      <y>25</y>
       <width>71</width>
       <height>25</height>
      </rect>
@@ -92,8 +92,8 @@
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>100</y>
+      <x>1490</x>
+      <y>85</y>
       <width>111</width>
       <height>25</height>
      </rect>
@@ -117,14 +117,66 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>105</y>
+      <x>1380</x>
+      <y>90</y>
       <width>81</width>
       <height>17</height>
      </rect>
     </property>
     <property name="text">
      <string>Blur Option</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_vdieo_src1">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>640</width>
+      <height>480</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>video_src1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_vdieo_output1">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>0</y>
+      <width>640</width>
+      <height>480</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>video_output1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_vdieo_src2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>490</y>
+      <width>640</width>
+      <height>480</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>video_src2</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_vdieo_output2">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>490</y>
+      <width>640</width>
+      <height>480</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>video_src2</string>
     </property>
    </widget>
   </widget>

@@ -16,7 +16,7 @@
 
 #define DEVICE 0  // GPU id
 #define NMS_THRESH 0.45
-#define BBOX_CONF_THRESH 0.3
+#define BBOX_CONF_THRESH 0.1
 
 
 // stuff we know about the network and the input/output blobs

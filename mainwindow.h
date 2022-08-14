@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QImage>
 
 #include "detect.h"
 
@@ -32,6 +33,10 @@ private slots:
 
     void on_pushButton_chooseModel_clicked();
 
+    void slot_src1_video_display( QImage img);
+    void slot_src2_video_display( QImage img);
+    void slot_output1_video_display( QImage img);
+    void slot_output2_video_display( QImage img);
 private:
     Ui::MainWindow *ui;
     std::string model_file;

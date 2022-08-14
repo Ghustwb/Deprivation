@@ -19,6 +19,7 @@ SOURCES += \
     detect.cpp \
     main.cpp \
     mainwindow.cpp \
+    mat_2_qimage.cpp \
     track/src/BYTETracker.cpp \
     track/src/STrack.cpp \
     track/src/kalmanFilter.cpp \
@@ -31,6 +32,7 @@ HEADERS += \
     detect.h \
     logging.h \
     mainwindow.h \
+    mat_2_qimage.h \
     yolox.h
 
 FORMS += \
