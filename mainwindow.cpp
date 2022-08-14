@@ -3,6 +3,7 @@
 #include "QMessageBox"
 #include "QFileDialog"
 #include "QDebug"
+#include "QFile"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->lineEdit_modelPath->setText("./model_trt_2070.engine");
+    ui->comboBox->setCurrentIndex(1);
 }
 
 MainWindow::~MainWindow()
@@ -23,68 +25,93 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_start1_clicked()
 {
     qDebug() << "Click button 1";
-    if(ui->lineEdit_modelPath->text().isEmpty())
+    QFile file(ui->lineEdit_modelPath->text());
+    if(!file.exists())
     {
         qDebug() << "Error,model is null";
+        QMessageBox::information(this,
+            tr("Error"),
+            tr("AI Model Not Found, Please Select Correct Model Path"),
+            QMessageBox::Ok | QMessageBox::Cancel,
+            QMessageBox::Ok);
         return;
     }
     else
     {
         model_file = ui->lineEdit_modelPath->text().toStdString();
-        Detector *detector = new Detector(model_file) ;
-        detector->setCamIndex(0);
-        detector->start();
+        detector1 = new Detector(model_file) ;
+        int blur_option = ui->comboBox->currentIndex();
+        detector1->setCamOption(0,blur_option);
+        detector1->start();
     }
 }
 
 void MainWindow::on_pushButton_start2_clicked()
 {
     qDebug() << "Click button 2";
-    if(ui->lineEdit_modelPath->text().isEmpty())
+    QFile file(ui->lineEdit_modelPath->text());
+    if(!file.exists())
     {
         qDebug() << "Error,model is null";
+        QMessageBox::information(this,
+            tr("Error"),
+            tr("AI Model Not Found, Please Select Correct Model Path"),
+            QMessageBox::Ok | QMessageBox::Cancel,
+            QMessageBox::Ok);
         return;
     }
     else
     {
         model_file = ui->lineEdit_modelPath->text().toStdString();
-        Detector *detector = new Detector(model_file) ;
-        detector->setCamIndex(1);
-        detector->start();
+        detector2 = new Detector(model_file) ;
+        detector2->setCamOption(1);
+        detector2->start();
     }
 }
 
 void MainWindow::on_pushButton_start3_clicked()
 {
     qDebug() << "Click button 3";
-    if(ui->lineEdit_modelPath->text().isEmpty())
+    QFile file(ui->lineEdit_modelPath->text());
+    if(!file.exists())
     {
         qDebug() << "Error,model is null";
+        QMessageBox::information(this,
+            tr("Error"),
+            tr("AI Model Not Found, Please Select Correct Model Path"),
+            QMessageBox::Ok | QMessageBox::Cancel,
+            QMessageBox::Ok);
         return;
     }
     else
     {
         model_file = ui->lineEdit_modelPath->text().toStdString();
-        Detector *detector = new Detector(model_file) ;
-        detector->setCamIndex(2);
-        detector->start();
+        detector3 = new Detector(model_file) ;
+        detector3->setCamOption(2);
+        detector3->start();
     }
 }
 
 void MainWindow::on_pushButton_start4_clicked()
 {
     qDebug() << "Click button 4";
-    if(ui->lineEdit_modelPath->text().isEmpty())
+    QFile file(ui->lineEdit_modelPath->text());
+    if(!file.exists())
     {
         qDebug() << "Error,model is null";
+        QMessageBox::information(this,
+            tr("Error"),
+            tr("AI Model Not Found, Please Select Correct Model Path"),
+            QMessageBox::Ok | QMessageBox::Cancel,
+            QMessageBox::Ok);
         return;
     }
     else
     {
         model_file = ui->lineEdit_modelPath->text().toStdString();
-        Detector *detector = new Detector(model_file) ;
-        detector->setCamIndex(3);
-        detector->start();
+        detector4 = new Detector(model_file) ;
+        detector4->setCamOption(3);
+        detector4->start();
     }
 }
 
@@ -102,16 +129,3 @@ void MainWindow::on_pushButton_chooseModel_clicked()
     ui->lineEdit_modelPath->setText(fileName);
 }
 
-void MainWindow::on_pushButton_loadModel_clicked()
-{
-    //    if(ui->lineEdit_modelPath->text().isEmpty())
-    //    {
-    //        //        QMessageBox::warning(this, '标题', '我是文本', QMessageBox.Close);
-    //        return;
-    //    }
-    //    std::string model_name = ui->lineEdit_modelPath->text().toStdString();
-    //    detector = new Detector(model_name);
-
-    //    ui->pushButton_loadModel->setVisible(false);
-    //    model_loaded_done = detector->model_init_done;
-}

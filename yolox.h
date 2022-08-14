@@ -66,8 +66,7 @@ private:
     void generate_yolox_proposals(std::vector<GridAndStride> grid_strides, float* feat_blob, float prob_threshold, std::vector<Object>& objects);
     float* blobFromImage(cv::Mat& img);
     void decode_outputs(float* prob, std::vector<Object>& objects, float scale, const int img_w, const int img_h);
-    void Generate_Mosaic(cv::Mat& bgr, const std::vector<Object>& objects);
-   
+
 };
 }
 

@@ -271,118 +271,7 @@ void YOLOX::decode_outputs(float* prob, std::vector<Object>& objects, float scal
         }
 }
 
-//Put Mosic on image
-void YOLOX::Generate_Mosaic(cv::Mat& bgr, const std::vector<Object>& objects)
-{
-#if 0
-    int step = 30;
-    for (int t = 0; t < objects.size(); t++)
-    {
-        int x = objects.at(t).rect.x;
-        int y = objects.at(t).rect.y;
-        int width = objects.at(t).rect.width;
-        int height = objects.at(t).rect.height;
-        for (int i = y; i < (y + height); i += step)
-        {
-            for (int j = x; j < (x + width); j += step)
-            {
-                for (int k = i; k < (step + i); k++)
-                {
-                    for (int m = j; m < (step + j); m++)
-                    {
-                        for (int c = 0; c < 3; c++)
-                        {
-                            bgr.at<cv::Vec3b>(k, m)[c] = bgr.at<cv::Vec3b>(i, j)[c];
-                        }
-                    }
-                }
-            }
-        }
-    }
-#endif
-    int pix = 105;
-    for (int t = 0; t < objects.size(); t++)
-    {
-        int x = objects.at(t).rect.x;
-        int y = objects.at(t).rect.y;
-        int width = objects.at(t).rect.width;
-        int height = objects.at(t).rect.height;
-        for (int i = y; i < (y + height); i += 1)
-        {
-            for (int k = x; k < (x + width); k++)
-            {
-                for (int m = 0; m < 3; m++)
-                {
-                    bgr.at<cv::Vec3b>(i, k)[m] = pix;
-                }
-            }
-        }
-    }
-    cv::namedWindow("Mosaic", CV_WINDOW_NORMAL);
-    cv::imshow("Mosaic", bgr);
-}
 
-
-void YOLOX::draw_objects(const cv::Mat& bgr, const std::vector<Object>& objects)
-{
-    static const char* class_names[] = {
-        "Face", "Plate"
-    };
-
-    cv::Mat image = bgr.clone();
-
-    for (size_t i = 0; i < objects.size(); i++)
-    {
-        const Object& obj = objects[i];
-
-        // fprintf(stderr, "%d = %.5f at %.2f %.2f %.2f x %.2f\n", obj.label, obj.prob,
-        //         obj.rect.x, obj.rect.y, obj.rect.width, obj.rect.height);
-
-        cv::Scalar color = cv::Scalar(color_list[obj.label][0], color_list[obj.label][1], color_list[obj.label][2]);
-        float c_mean = cv::mean(color)[0];
-        cv::Scalar txt_color;
-        if (c_mean > 0.5){
-            txt_color = cv::Scalar(0, 0, 0);
-        }else{
-            txt_color = cv::Scalar(255, 255, 255);
-        }
-
-        cv::rectangle(image, obj.rect, color * 255, 2);
-
-        char text[256];
-        sprintf(text, "%s %.1f%%", class_names[obj.label], obj.prob * 100);
-
-        int baseLine = 0;
-        cv::Size label_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, 0.4, 1, &baseLine);
-
-        cv::Scalar txt_bk_color = color * 0.7 * 255;
-
-        int x = obj.rect.x;
-        int y = obj.rect.y + 1;
-        //int y = obj.rect.y - label_size.height - baseLine;
-        if (y > image.rows)
-            y = image.rows;
-        //if (x + label_size.width > image.cols)
-            //x = image.cols - label_size.width;
-
-        cv::Mat objImg = image(cv::Rect(cv::Point(x, y), cv::Size(label_size.width, label_size.height + baseLine)));
-        cv::rectangle(image, cv::Rect(cv::Point(x, y), cv::Size(label_size.width, label_size.height + baseLine)),
-                      txt_bk_color, -1);
-
-        //cv::GaussianBlur(objImg, objImg, cv::Size(5, 5), 11, 11);
-
-        cv::putText(image, text, cv::Point(x, y + label_size.height),
-                    cv::FONT_HERSHEY_SIMPLEX, 0.4, txt_color, 1);
-    }
-
-    //cv::imwrite("det_res.jpg", image);
-    //fprintf(stderr, "save vis file\n");
-
-    cv::namedWindow("video", CV_WINDOW_NORMAL);
-    cv::imshow("video", image);
-
-    //cv::waitKey(1);
-}
 
 
 void YOLOX::doInference(IExecutionContext& context, float* input, float* output, const int output_size, cv::Size input_shape) {
@@ -443,8 +332,9 @@ std::vector<Object> YOLOX::detect(cv::Mat& img) {
     std::vector<Object> objects;
     
     decode_outputs(prob, objects, scale, img_w, img_h);
-    draw_objects(img, objects);
-    Generate_Mosaic(img,objects);
+    //draw_objects(img, objects);
+    //Generate_Mosaic(img,objects);
+
     // delete the pointer to the float
     delete blob;
     return objects;

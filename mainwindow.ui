@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>469</width>
-    <height>275</height>
+    <height>260</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <widget class="QPushButton" name="pushButton_start1">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>60</x>
       <y>180</y>
       <width>41</width>
       <height>25</height>
@@ -30,7 +30,7 @@
    <widget class="QPushButton" name="pushButton_start2">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>140</x>
       <y>180</y>
       <width>41</width>
       <height>25</height>
@@ -43,7 +43,7 @@
    <widget class="QPushButton" name="pushButton_start3">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>220</x>
       <y>180</y>
       <width>41</width>
       <height>25</height>
@@ -56,7 +56,7 @@
    <widget class="QPushButton" name="pushButton_start4">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>300</x>
       <y>180</y>
       <width>41</width>
       <height>25</height>
@@ -89,17 +89,42 @@
      <string>AI Model</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_loadModel">
+   <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>90</y>
-      <width>71</width>
+      <x>170</x>
+      <y>100</y>
+      <width>111</width>
       <height>25</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>Mosaic</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Gaussian</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>GrayPixle</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>105</y>
+      <width>81</width>
+      <height>17</height>
+     </rect>
+    </property>
     <property name="text">
-     <string>Load</string>
+     <string>Blur Option</string>
     </property>
    </widget>
   </widget>

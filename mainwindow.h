@@ -16,7 +16,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    //Detector *detector;
+    Detector *detector1;
+    Detector *detector2;
+    Detector *detector3;
+    Detector *detector4;
 
 private slots:
     void on_pushButton_start1_clicked();
@@ -28,8 +31,6 @@ private slots:
     void on_pushButton_start4_clicked();
 
     void on_pushButton_chooseModel_clicked();
-
-    void on_pushButton_loadModel_clicked();
 
 private:
     Ui::MainWindow *ui;
