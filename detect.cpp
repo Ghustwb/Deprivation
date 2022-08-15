@@ -2,6 +2,7 @@
 #include "opencv2/opencv.hpp"
 #include "QDebug"
 #include "QImage"
+#include "QTime"
 
 Detector::Detector(std::string Model)
 {
@@ -174,7 +175,8 @@ void Detector::run()
     if(video_index == 1)
         cap.open("/home/cap/Videos/video1.avi");
     else
-        cap.open(video_index);
+        cap.open("/home/cap/Videos/car1.mp4");
+        //cap.open(video_index);
     cv::Mat image ;
     if (!cap.isOpened())
     {
@@ -186,8 +188,18 @@ void Detector::run()
     while(1)
     {
         cap >> image;
+        if(image.empty())
+        {
+            qDebug() << "img empty";
+            break;
+        }
+        QTime timer;
+        timer.start();
         std::vector<Detect::Object> objects = yoloXDetector->detect(image);
+        qDebug()<< "Detect time: " << timer.elapsed();
+        timer.start();
         draw_objects(image,objects);
+        qDebug()<< "Draw Obj time: " << timer.elapsed();
         if(this->blur_option == 0)
         {
             this->generate_mosaic(image,objects);

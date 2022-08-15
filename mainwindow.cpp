@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->lineEdit_modelPath->setText("./model_trt_2070.engine");
+    ui->lineEdit_modelPath->setText("./model_trt_2070_640.engine");
     ui->comboBox->setCurrentIndex(1);
 
     //    bool OK1 = connect(detector1,SIGNAL(sig_video_src1(QImage)),this,SLOT(slot_src1_video_display(QImage)));
@@ -160,7 +160,8 @@ void MainWindow::on_pushButton_start2_clicked()
         bool OK3 = connect(detector2,SIGNAL(sig_video_src(QImage)),this,SLOT(slot_src2_video_display(QImage)));
         bool OK4 = connect(detector2,SIGNAL(sig_video_out(QImage)),this,SLOT(slot_output2_video_display(QImage)));
         qDebug() << OK3 << OK4;
-        detector2->setCamOption(1);
+        int blur_option = ui->comboBox->currentIndex();
+        detector2->setCamOption(1,blur_option);
         detector2->start();
     }
 }
@@ -183,7 +184,8 @@ void MainWindow::on_pushButton_start3_clicked()
     {
         model_file = ui->lineEdit_modelPath->text().toStdString();
         detector3 = new Detector(model_file) ;
-        detector3->setCamOption(2);
+        int blur_option = ui->comboBox->currentIndex();
+        detector3->setCamOption(2,blur_option);
         detector3->start();
     }
 }
@@ -206,7 +208,8 @@ void MainWindow::on_pushButton_start4_clicked()
     {
         model_file = ui->lineEdit_modelPath->text().toStdString();
         detector4 = new Detector(model_file) ;
-        detector4->setCamOption(3);
+        int blur_option = ui->comboBox->currentIndex();
+        detector4->setCamOption(3,blur_option);
         detector4->start();
     }
 }
