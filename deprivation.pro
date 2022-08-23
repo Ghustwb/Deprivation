@@ -39,57 +39,96 @@ FORMS += \
     mainwindow.ui
 
 #Track
-INCLUDEPATH += /home/cap/deprivation/track/include
+INCLUDEPATH += ./track/include
 
-#TensorRT
-LIBS += -L/home/cap/TensorRT/lib -lnvinfer
-INCLUDEPATH += /home/cap/TensorRT/include
-DEPENDPATH += /home/cap/TensorRT/include
+contains(QMAKE_HOST.arch, aarch64){
+    message("编译目标平台: arm-64")
+    message("编译器平台类型: $$QMAKE_HOST.arch")
 
-#CUDA#
-CUDA_SOURCES += decode.cu
-CUDA_SDK = "/usr/local/cuda/"   # Path to cuda SDK install
-CUDA_DIR = "/usr/local/cuda/"   # Path to cuda toolkit install
-# DO NOT EDIT BEYOND THIS UNLESS YOU KNOW WHAT YOU ARE DOING....
-SYSTEM_NAME = ubuntu        # Depending on your system either 'Win32', 'x64', or 'Win64'
-SYSTEM_TYPE = 64            # '32' or '64', depending on your system
-CUDA_ARCH = sm_60           # Type of CUDA architecture,
-                            # for example 'compute_10', 'compute_11', 'sm_10'
-NVCC_OPTIONS = --use_fast_math
-INCLUDEPATH += $$CUDA_DIR/include
-QMAKE_LIBDIR += $$CUDA_DIR/lib64/
-CUDA_LIBS = -lcuda -lcudart
-CUDA_INC = $$join(INCLUDEPATH,'" -I"','-I"','"')
-LIBS += $$CUDA_LIBS
+    #opencv
+    INCLUDEPATH += /usr/include/opencv4/
+    INCLUDEPATH += /usr/include/opencv4/opencv2/
+    LIBS += -L/usr/lib/aarch64-linux-gnu/ \
+        -lopencv_calib3d     -lopencv_gapi       -lopencv_objdetect \
+        -lopencv_core        -lopencv_highgui    -lopencv_photo \
+        -lopencv_dnn         -lopencv_imgcodecs  -lopencv_stitching \
+        -lopencv_features2d  -lopencv_imgproc    -lopencv_videoio   \
+        -lopencv_flann       -lopencv_ml         -lopencv_video
 
-# Configuration of the Cuda compiler
-#CONFIG(debug, debug|release) {
-#    # Debug mode
-#    cuda.input  = CUDA_SOURCES
-#    cuda.output = $$CUDA_OBJECTS_DIR/${QMAKE_FILE_BASE}_cuda.o
-#    cuda.commands = $$CUDA_DIR/bin/nvcc -D_DEBUG $$NVCC_OPTIONS \
-#                    $$CUDA_INC $$NVCC_LIBS --machine $$SYSTEM_TYPE \
-#                    -arch=$$CUDA_ARCH -c -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_NAME}
-#    cuda.dependency_type = TYPE_C
-#    QMAKE_EXTRA_COMPILERS += cuda
+        #TensorRT
+        LIBS += -L/usr/lib/aarch64-linux-gnu -lnvinfer
+        INCLUDEPATH += /usr/include/aarch64-linux-gnu/include
+        DEPENDPATH += /usr/include/aarch64-linux-gnu/include
+
+        #CUDA#
+        CUDA_SOURCES += decode.cu
+        CUDA_SDK = "/usr/local/cuda/"   # Path to cuda SDK install
+        CUDA_DIR = "/usr/local/cuda/"   # Path to cuda toolkit install
+        # DO NOT EDIT BEYOND THIS UNLESS YOU KNOW WHAT YOU ARE DOING....
+        SYSTEM_NAME = ubuntu        # Depending on your system either 'Win32', 'x64', or 'Win64'
+        SYSTEM_TYPE = 64            # '32' or '64', depending on your system
+        CUDA_ARCH = sm_60           # Type of CUDA architecture,
+                                    # for example 'compute_10', 'compute_11', 'sm_10'
+        NVCC_OPTIONS = --use_fast_math
+        INCLUDEPATH += $$CUDA_DIR/include
+        QMAKE_LIBDIR += $$CUDA_DIR/lib64/
+        CUDA_LIBS = -lcuda -lcudart
+        CUDA_INC = $$join(INCLUDEPATH,'" -I"','-I"','"')
+        LIBS += $$CUDA_LIBS
+
+        # Configuration of the Cuda compiler
+        #CONFIG(debug, debug|release) {
+        #    # Debug mode
+        #    cuda.input  = CUDA_SOURCES
+        #    cuda.output = $$CUDA_OBJECTS_DIR/${QMAKE_FILE_BASE}_cuda.o
+        #    cuda.commands = $$CUDA_DIR/bin/nvcc -D_DEBUG $$NVCC_OPTIONS \
+        #                    $$CUDA_INC $$NVCC_LIBS --machine $$SYSTEM_TYPE \
+        #                    -arch=$$CUDA_ARCH -c -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_NAME}
+        #    cuda.dependency_type = TYPE_C
+        #    QMAKE_EXTRA_COMPILERS += cuda
+        #}
+        #else {
+        #    # Release mode
+        #    cuda.input = CUDA_SOURCES
+        #    cuda.output = $$CUDA_OBJECTS_DIR/${QMAKE_FILE_BASE}_cuda.o
+        #    cuda.commands = $$CUDA_DIR/bin/nvcc $$NVCC_OPTIONS \
+        #                    $$CUDA_INC $$NVCC_LIBS --machine $$SYSTEM_TYPE \
+        #                    -arch=$$CUDA_ARCH -c -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_NAME}
+        #    cuda.dependency_type = TYPE_C
+        #    QMAKE_EXTRA_COMPILERS += cuda
+        #}
+
+}
+#else
+#{
+#    message("编译目标平台: x86")
+#    message("编译器平台类型: $$QMAKE_HOST.arch")
+#    #TensorRT
+#    LIBS += -L/home/cap/TensorRT/lib -lnvinfer
+#    INCLUDEPATH += /home/cap/TensorRT/include
+#    DEPENDPATH += /home/cap/TensorRT/include
+
+#    #CUDA#
+#    CUDA_SOURCES += decode.cu
+#    CUDA_SDK = "/usr/local/cuda/"   # Path to cuda SDK install
+#    CUDA_DIR = "/usr/local/cuda/"   # Path to cuda toolkit install
+#    # DO NOT EDIT BEYOND THIS UNLESS YOU KNOW WHAT YOU ARE DOING....
+#    SYSTEM_NAME = ubuntu        # Depending on your system either 'Win32', 'x64', or 'Win64'
+#    SYSTEM_TYPE = 64            # '32' or '64', depending on your system
+#    CUDA_ARCH = sm_60           # Type of CUDA architecture,
+#                                # for example 'compute_10', 'compute_11', 'sm_10'
+#    NVCC_OPTIONS = --use_fast_math
+#    INCLUDEPATH += $$CUDA_DIR/include
+#    QMAKE_LIBDIR += $$CUDA_DIR/lib64/
+#    CUDA_LIBS = -lcuda -lcudart
+#    CUDA_INC = $$join(INCLUDEPATH,'" -I"','-I"','"')
+#    LIBS += $$CUDA_LIBS
+
+#    #OpenCV
+#    LIBS += -L/usr/local/lib/ -lopencv_imgcodecs -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_video -lopencv_videoio
+#    INCLUDEPATH += /usr/local/include/opencv4
+#    DEPENDPATH += /usr/local/include/opencv4
 #}
-#else {
-#    # Release mode
-#    cuda.input = CUDA_SOURCES
-#    cuda.output = $$CUDA_OBJECTS_DIR/${QMAKE_FILE_BASE}_cuda.o
-#    cuda.commands = $$CUDA_DIR/bin/nvcc $$NVCC_OPTIONS \
-#                    $$CUDA_INC $$NVCC_LIBS --machine $$SYSTEM_TYPE \
-#                    -arch=$$CUDA_ARCH -c -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_NAME}
-#    cuda.dependency_type = TYPE_C
-#    QMAKE_EXTRA_COMPILERS += cuda
-#}
-
-
-
-#OpenCV
-LIBS += -L/usr/local/lib/ -lopencv_imgcodecs -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_video -lopencv_videoio
-INCLUDEPATH += /usr/local/include/opencv4
-DEPENDPATH += /usr/local/include/opencv4
 
 
 #Eigen

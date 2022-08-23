@@ -19,12 +19,15 @@ cd build
 cmake ..
 ./yolox -i xxx
 ```
+---
 
 opencv如果打不开mp4
 ```shell
 sudo apt-get install build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev ffmpeg
 ```
 重新编译opencv即可
+
+---
 
 ### Jeston 安装 torch 和 torchision
 
@@ -41,4 +44,12 @@ mkdir build
 cd build
 cmake ..
 sudo make install
+```
+
+
+**5,安装jtop**
+```shell
+sudo apt install python3-pip
+pip3 install jetson-stats
+sudo jtop
 ```

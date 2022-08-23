@@ -172,11 +172,7 @@ void Detector::run()
         return ;
     }
     yoloXDetector = new Detect::YOLOX(model_path);
-    if(video_index == 1)
-        cap.open("/home/cap/Videos/video1.avi");
-    else
-        cap.open("/home/cap/Videos/car1.mp4");
-        //cap.open(video_index);
+    cap.open(video_index);
     cv::Mat image ;
     if (!cap.isOpened())
     {
